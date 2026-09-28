@@ -1,0 +1,62 @@
+[
+  {
+    "id_cliente": 1,
+    "nome": "Carlos Silva",
+    "email": "carlos.silva@email.com",
+    "perfil": "Conservador",
+    "ativo": "USD",
+    "cotacao_atual": 5.2185,
+    "variacao_pct": 0.56,
+    "oportunidade_compra": false,
+    "recomendacao": "AGUARDAR",
+    "corpo_email": "Ola Carlos Silva,\n\nAnalise de Mercado para o seu Perfil: Conservador\nAtivo de Interesse: USD | Cotacao Atual: R$ 5.22\nVariacao Diaria: 0.56% (Min: R$ 5.18 | Max: R$ 5.23)\n\nRecomendacao: AGUARDAR\nMotivo: O ativo USD subiu 0.56%. Recomendamos aguardar correcao.\n\nAtenciosamente,\nEquipe Santander Automacao & Investimentos"
+  },
+  {
+    "id_cliente": 2,
+    "nome": "Mariana Souza",
+    "email": "mariana.souza@email.com",
+    "perfil": "Moderado",
+    "ativo": "EUR",
+    "cotacao_atual": 5.933,
+    "variacao_pct": 0.55,
+    "oportunidade_compra": false,
+    "recomendacao": "AGUARDAR",
+    "corpo_email": "Ola Mariana Souza,\n\nAnalise de Mercado para o seu Perfil: Moderado\nAtivo de Interesse: EUR | Cotacao Atual: R$ 5.93\nVariacao Diaria: 0.55% (Min: R$ 5.89 | Max: R$ 5.94)\n\nRecomendacao: AGUARDAR\nMotivo: O ativo EUR subiu 0.55%. Recomendamos aguardar correcao.\n\nAtenciosamente,\nEquipe Santander Automacao & Investimentos"
+  },
+  {
+    "id_cliente": 3,
+    "nome": "Lucas Mendes",
+    "email": "lucas.mendes@email.com",
+    "perfil": "Agressivo",
+    "ativo": "BTC",
+    "cotacao_atual": 437257.0,
+    "variacao_pct": -0.83,
+    "oportunidade_compra": true,
+    "recomendacao": "HORA DE INVESTIR",
+    "corpo_email": "Ola Lucas Mendes,\n\nAnalise de Mercado para o seu Perfil: Agressivo\nAtivo de Interesse: BTC | Cotacao Atual: R$ 437,257.00\nVariacao Diaria: -0.83% (Min: R$ 430,392.00 | Max: R$ 441,900.00)\n\nRecomendacao: HORA DE INVESTIR\nMotivo: O ativo BTC teve variacao de -0.83% (abaixo do gatilho de -1.5%).\n\nAtenciosamente,\nEquipe Santander Automacao & Investimentos"
+  },
+  {
+    "id_cliente": 4,
+    "nome": "Beatriz Lima",
+    "email": "beatriz.lima@email.com",
+    "perfil": "Conservador",
+    "ativo": "USD",
+    "cotacao_atual": 5.2185,
+    "variacao_pct": 0.56,
+    "oportunidade_compra": false,
+    "recomendacao": "AGUARDAR",
+    "corpo_email": "Ola Beatriz Lima,\n\nAnalise de Mercado para o seu Perfil: Conservador\nAtivo de Interesse: USD | Cotacao Atual: R$ 5.22\nVariacao Diaria: 0.56% (Min: R$ 5.18 | Max: R$ 5.23)\n\nRecomendacao: AGUARDAR\nMotivo: O ativo USD subiu 0.56%. Recomendamos aguardar correcao.\n\nAtenciosamente,\nEquipe Santander Automacao & Investimentos"
+  },
+  {
+    "id_cliente": 5,
+    "nome": "Rafael Oliveira",
+    "email": "rafael.oliveira@email.com",
+    "perfil": "Agressivo",
+    "ativo": "BTC",
+    "cotacao_atual": 437257.0,
+    "variacao_pct": -0.83,
+    "oportunidade_compra": true,
+    "recomendacao": "HORA DE INVESTIR",
+    "corpo_email": "Ola Rafael Oliveira,\n\nAnalise de Mercado para o seu Perfil: Agressivo\nAtivo de Interesse: BTC | Cotacao Atual: R$ 437,257.00\nVariacao Diaria: -0.83% (Min: R$ 430,392.00 | Max: R$ 441,900.00)\n\nRecomendacao: HORA DE INVESTIR\nMotivo: O ativo BTC teve variacao de -0.83% (abaixo do gatilho de -2.0%).\n\nAtenciosamente,\nEquipe Santander Automacao & Investimentos"
+  }
+]

@@ -1,0 +1,35 @@
+[
+  {
+    "codigo": "USDBRL",
+    "nome": "Dólar Comercial",
+    "simbolo": "USD",
+    "cotacao": 5.2156,
+    "variacao_pct": 0.5,
+    "maxima_dia": 5.2261,
+    "minima_dia": 5.1802,
+    "alerta_ativo": false,
+    "timestamp": "2026-09-28 15:51:53"
+  },
+  {
+    "codigo": "EURBRL",
+    "nome": "Euro Comercial",
+    "simbolo": "EUR",
+    "cotacao": 5.9294,
+    "variacao_pct": 0.49,
+    "maxima_dia": 5.9397,
+    "minima_dia": 5.8906,
+    "alerta_ativo": false,
+    "timestamp": "2026-09-28 15:49:03"
+  },
+  {
+    "codigo": "BTCBRL",
+    "nome": "Bitcoin",
+    "simbolo": "BTC",
+    "cotacao": 438160.0,
+    "variacao_pct": -0.51,
+    "maxima_dia": 441900.0,
+    "minima_dia": 430392.0,
+    "alerta_ativo": false,
+    "timestamp": "2026-09-28 15:51:57"
+  }
+]

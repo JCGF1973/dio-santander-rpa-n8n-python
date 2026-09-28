@@ -1,0 +1,4 @@
+﻿codigo,nome,simbolo,cotacao,variacao_pct,maxima_dia,minima_dia,alerta_ativo,timestamp
+USDBRL,Dólar Comercial,USD,5.2156,0.5,5.2261,5.1802,False,2026-09-28 15:51:53
+EURBRL,Euro Comercial,EUR,5.9294,0.49,5.9397,5.8906,False,2026-09-28 15:49:03
+BTCBRL,Bitcoin,BTC,438160.0,-0.51,441900.0,430392.0,False,2026-09-28 15:51:57

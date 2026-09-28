@@ -1,0 +1,248 @@
+{
+  "name": "RPA - Recomendacao de Investimentos por Perfil",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 1
+            }
+          ]
+        }
+      },
+      "id": "1",
+      "name": "Agendamento (A cada 1h)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        200,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL",
+        "options": {}
+      },
+      "id": "2",
+      "name": "Extrair Cotacoes (HTTP API)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Carrega base cadastral de investidores e perfis (representando o CSV)\nreturn [\n  { json: { id: 1, nome: \"Carlos Silva\", email: \"carlos.silva@email.com\", perfil: \"Conservador\", ativo: \"USD\", gatilho_max: -0.50 } },\n  { json: { id: 2, nome: \"Mariana Souza\", email: \"mariana.souza@email.com\", perfil: \"Moderado\", ativo: \"EUR\", gatilho_max: -0.80 } },\n  { json: { id: 3, nome: \"Lucas Mendes\", email: \"lucas.mendes@email.com\", perfil: \"Agressivo\", ativo: \"BTC\", gatilho_max: -1.50 } },\n  { json: { id: 4, nome: \"Beatriz Lima\", email: \"beatriz.lima@email.com\", perfil: \"Conservador\", ativo: \"USD\", gatilho_max: -0.20 } },\n  { json: { id: 5, nome: \"Rafael Oliveira\", email: \"rafael.oliveira@email.com\", perfil: \"Agressivo\", ativo: \"BTC\", gatilho_max: -2.00 } }\n];"
+      },
+      "id": "3",
+      "name": "Base Investidores (CSV)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combinationMode": "mergeByPosition",
+        "options": {}
+      },
+      "id": "4",
+      "name": "Merge (Cotacoes + Investidores)",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Motor RPA: Analisa perfis de investidores cruzando com dados em tempo real\nconst items = $input.all();\nconst cotacoesAPI = items[0].json.USDBRL ? items[0].json : {};\n\nconst investidores = [\n  { id: 1, nome: \"Carlos Silva\", email: \"carlos.silva@email.com\", perfil: \"Conservador\", ativo: \"USDBRL\", simbolo: \"USD\", gatilho_max: -0.50 },\n  { id: 2, nome: \"Mariana Souza\", email: \"mariana.souza@email.com\", perfil: \"Moderado\", ativo: \"EURBRL\", simbolo: \"EUR\", gatilho_max: -0.80 },\n  { id: 3, nome: \"Lucas Mendes\", email: \"lucas.mendes@email.com\", perfil: \"Agressivo\", ativo: \"BTCBRL\", simbolo: \"BTC\", gatilho_max: -1.50 },\n  { id: 4, nome: \"Beatriz Lima\", email: \"beatriz.lima@email.com\", perfil: \"Conservador\", ativo: \"USDBRL\", simbolo: \"USD\", gatilho_max: -0.20 },\n  { id: 5, nome: \"Rafael Oliveira\", email: \"rafael.oliveira@email.com\", perfil: \"Agressivo\", ativo: \"BTCBRL\", simbolo: \"BTC\", gatilho_max: -2.00 }\n];\n\nconst recomendacoes = [];\n\ninvestidores.forEach(inv => {\n  const dadosMercado = cotacoesAPI[inv.ativo] || {};\n  const cotacao = Number(parseFloat(dadosMercado.bid || 0).toFixed(4));\n  const variacao = Number(parseFloat(dadosMercado.pctChange || 0).toFixed(2));\n  const maxima = Number(parseFloat(dadosMercado.high || 0).toFixed(4));\n  const minima = Number(parseFloat(dadosMercado.low || 0).toFixed(4));\n  \n  // Regra de decisao: Oportunidade de investimento identificada\n  const horaDeInvestir = variacao <= inv.gatilho_max || variacao <= 0;\n  \n  const statusAcao = horaDeInvestir ? \"HORA DE INVESTIR (Entrada Recomendada)\" : \"AGUARDAR (Mercado em alta)\";\n  const motivo = horaDeInvestir \n    ? `O ativo ${inv.simbolo} variou ${variacao}%, atingindo zona de oportunidade para perfil ${inv.perfil}.`\n    : `O ativo ${inv.simbolo} subiu ${variacao}%. Recomendamos aguardar correcao.`;\n    \n  const emailBody = `Ola ${inv.nome},\\n\\n` +\n    `Análise de Investimentos - Santander RPA\\n` +\n    `Perfil do Investidor: ${inv.perfil} | Ativo: ${inv.simbolo}\\n` +\n    `Cotacao Atual: R$ ${cotacao.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} (${variacao}%)\\n` +\n    `Minima do Dia: R$ ${minima} | Maxima: R$ ${maxima}\\n\\n` +\n    `🎯 Recomendacao: ${statusAcao}\\n` +\n    `💡 Parecer: ${motivo}\\n\\n` +\n    `Atenciosamente,\\nEquipe de Automacao e Investimentos Santander`;\n    \n  recomendacoes.append ? null : recomendacoes.push({\n    id: inv.id,\n    nome: inv.nome,\n    email: inv.email,\n    perfil: inv.perfil,\n    ativo: inv.simbolo,\n    cotacao: cotacao,\n    variacao_pct: variacao,\n    hora_de_investir: horaDeInvestir,\n    recomendacao: statusAcao,\n    email_corpo: emailBody\n  });\n});\n\nconst oportunidades = recomendacoes.filter(r => r.hora_de_investir);\n\nreturn {\n  status: \"SUCESSO\",\n  total_analisados: recomendacoes.length,\n  total_oportunidades: oportunidades.length,\n  possui_oportunidades: oportunidades.length > 0 ? 1 : 0,\n  investidores_com_oportunidade: oportunidades,\n  todas_recomendacoes: recomendacoes,\n  resumo_executivo: `Identificadas ${oportunidades.length} recomendacoes de investimento para envio imediato.`\n};"
+      },
+      "id": "5",
+      "name": "Motor RPA: Analise de Perfis",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        900,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.possui_oportunidades }}",
+              "operation": "equal",
+              "value2": 1
+            }
+          ]
+        }
+      },
+      "id": "6",
+      "name": "Ha Oportunidades de Compra?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://httpbin.org/post",
+        "sendBody": true,
+        "specifyBody": "usingFields",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "tipo_disparo",
+              "value": "EMAIL_RECOMENDACAO_INVESTIMENTO"
+            },
+            {
+              "name": "total_emails_enviados",
+              "value": "={{ $json.total_oportunidades }}"
+            },
+            {
+              "name": "resumo",
+              "value": "={{ $json.resumo_executivo }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7",
+      "name": "Disparar E-mails: Hora de Investir!",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1340,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://httpbin.org/post",
+        "sendBody": true,
+        "specifyBody": "usingFields",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "tipo_disparo",
+              "value": "RELATORIO_ROTINA_MERCADO"
+            },
+            {
+              "name": "status",
+              "value": "Nenhuma oportunidade de compra no momento. Mercado em alta."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8",
+      "name": "Log: Sem Oportunidades de Compra",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1340,
+        400
+      ]
+    }
+  ],
+  "connections": {
+    "Agendamento (A cada 1h)": {
+      "main": [
+        [
+          {
+            "node": "Extrair Cotacoes (HTTP API)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Base Investidores (CSV)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extrair Cotacoes (HTTP API)": {
+      "main": [
+        [
+          {
+            "node": "Merge (Cotacoes + Investidores)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Base Investidores (CSV)": {
+      "main": [
+        [
+          {
+            "node": "Merge (Cotacoes + Investidores)",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge (Cotacoes + Investidores)": {
+      "main": [
+        [
+          {
+            "node": "Motor RPA: Analise de Perfis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Motor RPA: Analise de Perfis": {
+      "main": [
+        [
+          {
+            "node": "Ha Oportunidades de Compra?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ha Oportunidades de Compra?": {
+      "main": [
+        [
+          {
+            "node": "Disparar E-mails: Hora de Investir!",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log: Sem Oportunidades de Compra",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Sao_Paulo"
+  }
+}

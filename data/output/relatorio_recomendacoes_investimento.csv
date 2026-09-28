@@ -1,0 +1,6 @@
+﻿id_cliente,nome,email,perfil,ativo,cotacao_atual,variacao_pct,oportunidade_compra,recomendacao
+1,Carlos Silva,carlos.silva@email.com,Conservador,USD,5.2185,0.56,False,AGUARDAR
+2,Mariana Souza,mariana.souza@email.com,Moderado,EUR,5.933,0.55,False,AGUARDAR
+3,Lucas Mendes,lucas.mendes@email.com,Agressivo,BTC,437257.0,-0.83,True,HORA DE INVESTIR
+4,Beatriz Lima,beatriz.lima@email.com,Conservador,USD,5.2185,0.56,False,AGUARDAR
+5,Rafael Oliveira,rafael.oliveira@email.com,Agressivo,BTC,437257.0,-0.83,True,HORA DE INVESTIR

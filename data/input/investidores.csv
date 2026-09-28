@@ -1,0 +1,6 @@
+id_cliente,nome,email,perfil,ativo_interesse,gatilho_variacao_max
+1,Carlos Silva,carlos.silva@email.com,Conservador,USD,-0.50
+2,Mariana Souza,mariana.souza@email.com,Moderado,EUR,-0.80
+3,Lucas Mendes,lucas.mendes@email.com,Agressivo,BTC,-1.50
+4,Beatriz Lima,beatriz.lima@email.com,Conservador,USD,-0.20
+5,Rafael Oliveira,rafael.oliveira@email.com,Agressivo,BTC,-2.00

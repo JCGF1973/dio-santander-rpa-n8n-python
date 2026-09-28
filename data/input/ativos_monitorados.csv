@@ -1,0 +1,4 @@
+codigo,nome,limite_alerta_pct,responsavel
+USDBRL,Dólar Comercial,1.0,gestao_cambio@empresa.com
+EURBRL,Euro Comercial,1.0,gestao_cambio@empresa.com
+BTCBRL,Bitcoin,3.0,ativos_digitais@empresa.com
